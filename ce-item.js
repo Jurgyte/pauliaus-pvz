@@ -1,6 +1,6 @@
 customElements.define('tinderforbananas-item', class extends HTMLElement {
-  static get observedAttributes() { 
-    return ['inmovable']; 
+  static get observedAttributes() {
+    return ['inmovable'];
   }
 
   constructor() {
@@ -31,10 +31,10 @@ customElements.define('tinderforbananas-item', class extends HTMLElement {
 
   onResize() {
     this._gBCR = this.getBoundingClientRect();
-    this._rotationLerp = lerp(0, this._gBCR.width/2, 0, 10, {noClamp: true});
-    this._nopeOpacityLerp = lerp(0, -this._gBCR.width/3, 0, 1);
-    this._likeOpacityLerp = lerp(0, this._gBCR.width/3, 0, 1);
-    this._superlikeOpacityLerp = lerp(-this._gBCR.height/8, -this._gBCR.height/8 - this._gBCR.height/3, 0, 1);
+    this._rotationLerp = lerp(0, this._gBCR.width / 2, 0, 10, { noClamp: true });
+    this._nopeOpacityLerp = lerp(0, -this._gBCR.width / 3, 0, 1);
+    this._likeOpacityLerp = lerp(0, this._gBCR.width / 3, 0, 1);
+    this._superlikeOpacityLerp = lerp(-this._gBCR.height / 8, -this._gBCR.height / 8 - this._gBCR.height / 3, 0, 1);
   }
 
   get data() {
@@ -120,20 +120,20 @@ customElements.define('tinderforbananas-item', class extends HTMLElement {
       });
   }
   like(item) {
-    return this._animate('translateX(200%)', {next: true})
-      .then(_ => this.dispatchEvent(new CustomEvent('swipe', {detail: 'like'})));
+    return this._animate('translateX(200%)', { next: true })
+      .then(_ => this.dispatchEvent(new CustomEvent('swipe', { detail: 'like' })));
   }
   nope(item) {
-    return this._animate('translateX(-200%)', {next: true})
-      .then(_ => this.dispatchEvent(new CustomEvent('swipe', {detail: 'nope'})));
+    return this._animate('translateX(-200%)', { next: true })
+      .then(_ => this.dispatchEvent(new CustomEvent('swipe', { detail: 'nope' })));
   }
   superlike(item) {
-    return this._animate('translateY(-200%)', {next: true})
-      .then(_ => this.dispatchEvent(new CustomEvent('swipe', {detail: 'superlike'})));
+    return this._animate('translateY(-200%)', { next: true })
+      .then(_ => this.dispatchEvent(new CustomEvent('swipe', { detail: 'superlike' })));
   }
   undo() {
     console.log('UNDO')
     return this._animate('translateX(0%)')
-      .then(_ => this.dispatchEvent(new CustomEvent('swipe', {detail: 'undo'})));
+      .then(_ => this.dispatchEvent(new CustomEvent('swipe', { detail: 'undo' })));
   }
 });

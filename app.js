@@ -40,7 +40,7 @@
 
   const dataProvider = (function* () {
     while (true) {
-      yield *items;
+      yield* items;
     }
   })();
 
@@ -69,10 +69,10 @@
       const details = document.querySelector('tinderforbananas-details');
       const undo = document.querySelector('.item--undo');
       top.style.transform = '';
-      top.selected = 3;
+      top.selected = 0;
+      next.data = top.data;
       top.data = undo.data;
       undo.data = null;
-      next.data = top.data;
     } else {
       const top = document.querySelector('.item--top');
       window.ga && ga('send', 'event', `item-${top.data.id}`, event.detail);
@@ -89,7 +89,7 @@
 
   function hookupButtons() {
     const details = document.querySelector('.view--details');
-    document.querySelectorAll('.control--like').forEach(btn => 
+    document.querySelectorAll('.control--like').forEach(btn =>
       btn.addEventListener('click', _ => {
         let p = Promise.resolve();
         if (!details.classList.contains('hidden')) {
@@ -107,7 +107,7 @@
         p.then(_ => document.querySelector('.item--top').nope());
       })
     );
-    document.querySelectorAll('.control--superlike').forEach(btn => 
+    document.querySelectorAll('.control--superlike').forEach(btn =>
       btn.addEventListener('click', _ => {
         let p = Promise.resolve();
         if (!details.classList.contains('hidden')) {
@@ -116,7 +116,7 @@
         p.then(_ => document.querySelector('.item--top').superlike());
       })
     );
-    document.querySelectorAll('.control--undo').forEach(btn => 
+    document.querySelectorAll('.control--undo').forEach(btn =>
       btn.addEventListener('click', _ => {
         console.log('YO!')
         let p = Promise.resolve();
@@ -142,7 +142,7 @@
 
   //   // Let’s do FLIP!
   //   const start = image.getBoundingClientRect();
-    
+
   //   swipelist.classList.add('overlaid');
   //   details.classList.remove('hidden');
 
