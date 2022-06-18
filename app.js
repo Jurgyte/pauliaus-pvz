@@ -63,10 +63,11 @@
   }
 
   function getItemIndex(index) {
-    if (index >= items.legth) {
+
+    if (index >= items.legth - 1) {
       return 0;
     }
-    if (index < 0) {
+    if (index <= -1) {
       return items.length - 1;
     }
     return index;
@@ -80,12 +81,12 @@
     top.style.transform = '';
     top.selected = 0;
     if (event.detail === 'undo') {
-      selectedItem = selectedItem === 0 ? items.length - 1 : selectedItem - 1;
+      selectedItem = selectedItem <= 0 ? items.length - 1 : selectedItem - 1;
       undo.data = items[getItemIndex(selectedItem - 1)];
       top.data = items[getItemIndex(selectedItem)];
       next.data = items[getItemIndex(selectedItem + 1)];
     } else {
-      selectedItem = selectedItem === items.length - 1 ? 0 : selectedItem + 1;
+      selectedItem = selectedItem >= items.length - 1 ? 0 : selectedItem + 1;
       next.data = items[getItemIndex(selectedItem + 1)];
       top.data = items[getItemIndex(selectedItem)];
       undo.data = items[getItemIndex(selectedItem - 1)];
