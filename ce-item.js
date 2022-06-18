@@ -56,7 +56,6 @@ customElements.define('tinderforbananas-item', class extends HTMLElement {
   }
 
   _updateBindings() {
-    console.log('DATA BINDINGS ce-items', this.data)
     if (this.data) {
       this.querySelector('.item__details__name').textContent = `${this.data.name}`;
       this.querySelector('.item__details__age').textContent = `${this.data.age}`;
@@ -132,8 +131,7 @@ customElements.define('tinderforbananas-item', class extends HTMLElement {
       .then(_ => this.dispatchEvent(new CustomEvent('swipe', { detail: 'superlike' })));
   }
   undo() {
-    console.log('UNDO')
-    return this._animate('translateX(0%)')
+    return this._animate('translateX(0%)', { undo: true })
       .then(_ => this.dispatchEvent(new CustomEvent('swipe', { detail: 'undo' })));
   }
 });

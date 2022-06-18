@@ -38,11 +38,13 @@
     }
   ];
 
-  const dataProvider = (function* () {
-    while (true) {
-      yield* items;
-    }
-  })();
+  let selectedItem = 0
+
+  // const dataProvider = (function* () {
+  //   while (true) {
+  //     yield* items;
+  //   }
+  // })();
 
   function adjustSwipeItems() {
     const top = document.querySelector('.item--top');
@@ -60,30 +62,33 @@
     next.onResize();
   }
 
+  function getItemIndex(index) {
+    if (index >= items.legth) {
+      return 0;
+    }
+    if (index < 0) {
+      return items.length - 1;
+    }
+    return index;
+  }
+
   function updateCards(event) {
-    console.log('update card', event)
+    const top = document.querySelector('.item--top');
+    window.ga && ga('send', 'event', `item-${top.data.id}`, event.detail);
+    const next = document.querySelector('.item--next');
+    const undo = document.querySelector('.item--undo');
+    top.style.transform = '';
+    top.selected = 0;
     if (event.detail === 'undo') {
-      const top = document.querySelector('.item--top');
-      window.ga && ga('send', 'event', `item-${top.data.id}`, event.detail);
-      const next = document.querySelector('.item--next');
-      const details = document.querySelector('tinderforbananas-details');
-      const undo = document.querySelector('.item--undo');
-      top.style.transform = '';
-      top.selected = 0;
-      next.data = top.data;
-      top.data = undo.data;
-      undo.data = null;
+      selectedItem = selectedItem === 0 ? items.length - 1 : selectedItem - 1;
+      undo.data = items[getItemIndex(selectedItem - 1)];
+      top.data = items[getItemIndex(selectedItem)];
+      next.data = items[getItemIndex(selectedItem + 1)];
     } else {
-      const top = document.querySelector('.item--top');
-      window.ga && ga('send', 'event', `item-${top.data.id}`, event.detail);
-      const next = document.querySelector('.item--next');
-      const details = document.querySelector('tinderforbananas-details');
-      const undo = document.querySelector('.item--undo');
-      top.style.transform = '';
-      top.selected = 0;
-      undo.data = top.data;
-      top.data = next.data;
-      next.data = dataProvider.next().value;
+      selectedItem = selectedItem === items.length - 1 ? 0 : selectedItem + 1;
+      next.data = items[getItemIndex(selectedItem + 1)];
+      top.data = items[getItemIndex(selectedItem)];
+      undo.data = items[getItemIndex(selectedItem - 1)];
     }
   }
 
@@ -118,7 +123,6 @@
     );
     document.querySelectorAll('.control--undo').forEach(btn =>
       btn.addEventListener('click', _ => {
-        console.log('YO!')
         let p = Promise.resolve();
         if (!details.classList.contains('hidden')) {
           p = hideDetails();
@@ -223,15 +227,15 @@
 
   function init() {
     const undo = document.querySelector('.item--undo');
-    undo.data = dataProvider.next().value;
+    undo.data = items[items.length - 1];
 
     const top = document.querySelector('.item--top');
-    top.data = dataProvider.next().value;
+    top.data = items[selectedItem];
     top.addEventListener('swipe', updateCards);
     // top.addEventListener('details', showDetails);
 
     const next = document.querySelector('.item--next');
-    next.data = dataProvider.next().value;
+    next.data = items[selectedItem + 1];
 
     // const details = document.querySelector('tinderforbananas-details');
     // details.addEventListener('dismiss', hideDetails);
