@@ -63,11 +63,10 @@
   }
 
   function getItemIndex(index) {
-
-    if (index >= items.legth - 1) {
+    if (index > items.length - 1) {
       return 0;
     }
-    if (index <= -1) {
+    if (index < 0) {
       return items.length - 1;
     }
     return index;
