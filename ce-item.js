@@ -118,20 +118,21 @@ customElements.define('tinderforbananas-item', class extends HTMLElement {
         this.style.transition = 'initial';
       });
   }
-  like(item) {
-    return this._animate('translateX(200%)', { next: true })
+
+  like() {
+    return this._animate('translateX(200%)')
       .then(_ => this.dispatchEvent(new CustomEvent('swipe', { detail: 'like' })));
   }
-  nope(item) {
-    return this._animate('translateX(-200%)', { next: true })
+  nope() {
+    return this._animate('translateX(-200%)')
       .then(_ => this.dispatchEvent(new CustomEvent('swipe', { detail: 'nope' })));
   }
-  superlike(item) {
-    return this._animate('translateY(-200%)', { next: true })
+  superlike() {
+    return this._animate('translateY(-200%)')
       .then(_ => this.dispatchEvent(new CustomEvent('swipe', { detail: 'superlike' })));
   }
   undo() {
-    return this._animate('translateX(0%)', { undo: true })
+    return this._animate('translateX(0%)')
       .then(_ => this.dispatchEvent(new CustomEvent('swipe', { detail: 'undo' })));
   }
 });
